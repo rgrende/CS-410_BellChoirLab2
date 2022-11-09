@@ -20,11 +20,14 @@ public class Conductor {
 
     public void playTheSong(Song song) throws LineUnavailableException {
         try (final SourceDataLine line = AudioSystem.getSourceDataLine(af)) {
+            line.open();
+            line.start();
             for (BellNote bn : song.getNotes()) {
                 Note note = bn.note;
                 NoteLength length = bn.length;
-                choirMembers.get(note).takeTurn(length);
+                choirMembers.get(note).takeTurn(length, line);
             }
+            line.drain();
             //set line to null
         } catch (LineUnavailableException e) {
             System.out.println(song.getName() + " not working...");

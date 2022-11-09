@@ -2,10 +2,12 @@
 import java.io.File;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 //Class Description:
 
 public class Song {
+    //class variables
     private final String name;
     private final String path;
     private List<BellNote> notes;
@@ -17,43 +19,50 @@ public class Song {
     }
 
     public List<BellNote> getNotes() {
+        //Returns the notes associated with of the song.
         return notes;
     }
 
     public String getName() {
+        //Returns the name of the song.
         return name;
     }
 
-    public static boolean validateSong() {
-        boolean success = true;
-        // Validate the first line of notes
-        // Validate the song itself
-        if (notes.isEmpty()) {
-            System.err.println("Error: No song loaded.");
-            return false;
+    private static List<BellNote> readSong(String path) {
+        //Here we are taking in a file, and converting it to a list of bell notes.
+        List <BellNote> bns = new LinkedList<>();
+        File file = new File(path);
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                BellNote temp = Tone.parseBellNote(scanner.nextLine());
+                if (temp != null) {
+                    //We don't like soup... or null notes.
+                    bns.add(temp);
+                }
+            }
+        } catch(java.io.IOException e) {
+            //handling errors
         }
-        return success;
-    }
-
-    private static LinkedList<BellNote> readSong(String path) {
-
+        return bns;
     }
 
     public static List<Song> uploadSongs() {
-        File songBook = new File("songs");
-
+        //Directory of songs
+        File songBook = new File("./songs");
         if (!songBook.exists()) {
             songBook.mkdirs();
-            System.out.println("Directory didn't exist, created one.");
+            System.out.println("Directory didn't exist. We will create one.");
         }
-        File[] Songs = songBook.listFiles();
-        songs = new Song[Songs.length];
-        if (songs.length == 0) {
-            System.err.println("Song book is empty. Please add some songs.")
+        //Song within the list of files
+        File[] songFiles = songBook.listFiles();
+        List <Song> song = new LinkedList<>();
+        if (songFiles.length == 0) {
+            System.err.println("Song book is empty. Please add some songs.");
         } else {
-            for (int i = 0; i < songBook.length(); i++) {
-                String name = Songs[i].getName();
-                String path = Songs[i].getPath();
+            for (int i = 0; i < songFiles.length; i++) {
+                String name = songFiles[i].getName();
+                String path = songFiles[i].getPath();
 
                 String songTitle;
 
@@ -64,11 +73,13 @@ public class Song {
                 } else {
                     songTitle = name;
                 }
-                songs[i] = new Song(songTitle, path);
+                song.add(new Song(songTitle, path));
             }
         }
-        return songs;
+        return song;
     }
 }
 
 
+//interface consists of the necessary methods
+//list is interface, has to be defined with implementation

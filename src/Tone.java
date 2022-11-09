@@ -15,7 +15,6 @@ import java.util.Scanner;
 
 public class Tone {
 
-    // Mary had a little lamb
     private static List<BellNote> loadNotes(String filename) {
         final List<BellNote> song = new ArrayList<>();
         final File file = new File(filename);
@@ -40,7 +39,7 @@ public class Tone {
         return song;
     }
 
-    private static BellNote parseBellNote(String line) {
+    public static BellNote parseBellNote(String line) {
         final String[] fields = line.split("\\s+");
         if (fields.length == 2) {
             Note note = parseNote(fields[0]);
@@ -72,20 +71,23 @@ public class Tone {
     private static NoteLength parseNoteLength(String length) {
         switch (length) {
             case "1":
-                //return Integer.parseNoteLength(length);
                 return NoteLength.WHOLE;
-
+            case "2D":
+                return NoteLength.DOTHALF;
             case "2":
                 return NoteLength.HALF;
-
             case "4":
                 return NoteLength.QUARTER;
-
+            case "4D":
+                return NoteLength.DOTQUARTER
             case "8":
                 return NoteLength.EIGTH;
-
+            case"8D":
+                return NoteLength.DOTEIGTH;
             case "16":
                 return NoteLength.SIXTEENTH;
+            case"16D":
+                return NoteLength.DOTSIXTEENTH;
 
             default:
                 return null;
@@ -96,25 +98,5 @@ public class Tone {
 
     Tone(AudioFormat af) {
         this.af = af;
-    }
-
-    void playSong(List<BellNote> song) throws LineUnavailableException {
-        System.out.println("Play song. Song length =" + song.size());
-        try (final SourceDataLine line = AudioSystem.getSourceDataLine(af)) {
-            line.open();
-            line.start();
-
-            for (BellNote bn : song) {
-                playNote(line, bn);
-            }
-            line.drain();
-        }
-    }
-
-    private void playNote(SourceDataLine line, BellNote bn) {
-        final int ms = Math.min(bn.length.timeMs(), Note.MEASURE_LENGTH_SEC * 1000);
-        final int length = Note.SAMPLE_RATE * ms / 1000;
-        line.write(bn.note.sample(), 0, length);
-        line.write(Note.REST.sample(), 0, 50);
     }
 }

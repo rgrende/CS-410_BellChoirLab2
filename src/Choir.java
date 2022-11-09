@@ -37,14 +37,22 @@ public class Choir implements Runnable {
         this.line = line;
     }
 
-    public void takeTurn(NoteLength length) {
+    public void takeTurn(NoteLength length, SourceDataLine line) {
         synchronized (this) {
             if (turn) {
                 System.out.println("Attempted to give another turn to this choir member who hasn't finished their turn.");
             }
             turn = true;
             this.length = length;
+            this.line = line;
             notifyAll();
+            while (turn) {
+                try {
+                    wait();
+                } catch (InterruptedException ignored){
+
+                }
+            }
         }
     }
 
@@ -58,6 +66,7 @@ public class Choir implements Runnable {
 
     public void run() {
         timeToPlay = true;
+        //Preventing all the notes from playing at once.
         synchronized (this) {
             while (timeToPlay) {
                 while (!turn) {

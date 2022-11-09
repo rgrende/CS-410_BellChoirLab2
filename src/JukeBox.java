@@ -9,7 +9,6 @@ import java.util.*;
 //Class Description:
 
 public class JukeBox {
-    public boolean playing = true;
 
     private static Map<Note, Choir> getMembers(List<Song> songs) {
         LinkedList<Note> usedNotes = new LinkedList<Note>();
@@ -27,28 +26,30 @@ public class JukeBox {
     }
 
     public static void main(String[] args) throws Exception {
+        //global song list
         final List<Song> songs = Song.uploadSongs();
-        final Conductor conductor = new Conductor(getMembers(songs));
+        Conductor conductor;
+        final Map<Note, Choir> choirMembers = getMembers(songs);
+        boolean playing = true;
         while (playing) {
             System.out.println("Song List:");
-            //is this right?
             for (int i = 0; i < songs.size(); i++) {
                 Song song = songs.get(i);
                 System.out.println(" " + (i + 1) + ") " + song.getName());
             }
-            System.out.println("Enter a number from the list to play a song.")
+            System.out.println("Enter a number from the list to play a song.");
             System.out.println("If you wish to exit enter -1.");
-            //checking for validation!!
-            //why system.in?
+            //Checking for validation!!
+            //Why system.in? Because we are taking the input from the keyboard since it pulls from the console.
             Scanner scan = new Scanner(System.in);
-            while (!scan.hasNext("[1-" + songs.size() + "]|(0")) {
+            while (!scan.hasNext("[1-" + songs.size() + "]|(-1)")){
                 System.out.println("Not a valid song number. Please try again.");
                 scan.next();
             }
 
             int songNum = scan.nextInt() - 1;
             if (songNum + 1 == -1) {
-                System.out.println("Shutting Down the  Jukebox...");
+                System.out.println("Shutting Down the Jukebox...");
                 scan.close();
                 System.exit(-1);
             }
@@ -57,8 +58,8 @@ public class JukeBox {
             //need something here...
             if (song != null) {
                 // this needs work
-                conductor = new Conductor();
-                System.out.println(song.getName() + "is playing.");
+                conductor = new Conductor(choirMembers);
+                System.out.println(song.getName() + " is playing.");
                 conductor.playTheSong(song);
             } else {
                 System.out.println("Error with playing the selected track of " + song.getName() + ".");
