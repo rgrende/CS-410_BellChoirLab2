@@ -26,7 +26,7 @@ public class JukeBox {
     }
 
     public static void main(String[] args) throws Exception {
-        //global song list
+        //Global song list
         final List<Song> songs = Song.uploadSongs();
         Conductor conductor;
         final Map<Note, Choir> choirMembers = getMembers(songs);
@@ -42,6 +42,7 @@ public class JukeBox {
             //Checking for validation!!
             //Why system.in? Because we are taking the input from the keyboard since it pulls from the console.
             Scanner scan = new Scanner(System.in);
+            //Jaden helped me understand regex and how it operates.
             while (!scan.hasNext("[1-" + songs.size() + "]|(-1)")){
                 System.out.println("Not a valid song number. Please try again.");
                 scan.next();

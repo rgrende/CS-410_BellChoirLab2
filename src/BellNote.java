@@ -1,7 +1,4 @@
-//imports
-
 //Class Description:
-
 
 class BellNote {
     //the note length and the note itself
@@ -21,6 +18,7 @@ enum NoteLength {
     DOTHALF(0.75f),
     QUARTER(0.25f),
     DOTQUARTER(0.375f),
+    TRIPLET(0.22f),
     EIGTH(0.125f),
     DOTEIGTH(0.1875f),
     SIXTEENTH(0.0625f),
@@ -40,6 +38,7 @@ enum NoteLength {
 
 enum Note {
     // REST Must be the first 'Note'
+    //I have added all eight octaves to allow more songs to be played appropriately.
     REST, A0, A0S, B0, C0, C0S, D0, D0S, E0, F0, F0S, G0, G0S, A1, A1S, B1, C1, C1S, D1, D1S, E1, F1, F1S, G1,
     G1S, A2, A2S, B2, C2, C2S, D2, D2S, E2, F2, F2S, G2, G2S, A3, A3S, B3, C3, C3S, D3, D3S, E3, F3, F3S, G3,
     G3S, A4, A4S, B4, C4, C4S, D4, D4S, E4, F4, F4S, G4, G4S, A5, A5S, B5, C5, C5S, D5, D5S, E5, F5, F5S, G5,
@@ -48,7 +47,7 @@ enum Note {
 
 
     public static final int SAMPLE_RATE = 256 * 1024; // ~256KHz which makes for better sound quality.
-    public static final int MEASURE_LENGTH_SEC = 1;
+    public static final int MEASURE_LENGTH_SEC = 2;
 
     // Circumference of a circle divided by # of samples
     private static final double step_alpha = (2.0d * Math.PI) / SAMPLE_RATE;
@@ -73,21 +72,7 @@ enum Note {
             }
         }
     }
-//    public static Note getNote(String str) {
-//        swtich (str) {
-//            case "B0b":
-//                return Note.valueOf(A0S);
-//            break;
-//            case "C0b":
-//                return Note.valueOf(C0b);
-//            break;
-//            default:
-//                try {
-//
-//                }
-//        }
-//
-//    }
+
 
     public byte[] sample() {
         return sinSample;
