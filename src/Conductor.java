@@ -5,21 +5,36 @@ import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.AudioFormat;
 import java.util.Map;
 
-//Class Description:
+/**
+ * Class Description: This is the Conductor class. The conductor is in charge of checking
+ * and telling the members of the choir when to play and what note to play. I decided to use a Map
+ * as my main data structure when keeping track of what note is playing and what member is assigned
+ * to play that note.
+ */
 
 public class Conductor {
-    private final Map<Note, Choir> choirMembers; //this
+    //class variables
+    private final Map<Note, Choir> choirMembers;
     public final AudioFormat af;
 
-
+    /**
+     * In the constructor, I have the map that requires both a note, and a choir member.
+     * There was thought that if the audio format method was given another channel, harmony could be achieved.
+     */
     Conductor(Map<Note, Choir> choirMembers) {
         this.choirMembers = choirMembers;
         //go back and give it another channel!!
         af = new AudioFormat(Note.SAMPLE_RATE, 8, 1, true, false);
     }
 
+    /**
+     * playTheSong method opens the lines of each file and reads the note and note length.
+     * As each line is being read, a member of the choir is assigned a single note to play.
+     * Once the line has been read, another choir member gets to take turn to play the next note.
+     */
     public void playTheSong(Song song) throws LineUnavailableException {
         try (final SourceDataLine line = AudioSystem.getSourceDataLine(af)) {
+            //opens the line to read
             line.open();
             line.start();
             for (BellNote bn : song.getNotes()) {
@@ -27,14 +42,10 @@ public class Conductor {
                 NoteLength length = bn.length;
                 choirMembers.get(note).takeTurn(length, line);
             }
+            //drains the line after each read
             line.drain();
-            //set line to null
         } catch (LineUnavailableException e) {
             System.out.println(song.getName() + " not working...");
         }
     }
 }
-
-//add in playSong a for loop for each of the members and sets the line. So it knows what line they play
-//set to null after it gets done playing
-//after try

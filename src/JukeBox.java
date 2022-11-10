@@ -1,12 +1,9 @@
 //imports
-import javax.management.NotificationEmitter;
-import javax.sound.sampled.AudioFormat;
-import java.io.File;
 import java.util.*;
-//sout
-//psvm
 
-//Class Description:
+/**
+ * Class Description: This is the JukeBox class that contains main method.
+ */
 
 public class JukeBox {
 

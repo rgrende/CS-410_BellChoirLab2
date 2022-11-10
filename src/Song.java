@@ -4,30 +4,44 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-//Class Description:
+/**
+ * Class Description: This is the Song class that identifies a song based on the properties of
+ * BellNotes. It returns a song name, path, and list of bell notes.
+ */
 
 public class Song {
-    //class variables
+    //Class variables
     private final String name;
     private final String path;
     private List<BellNote> notes;
 
+    //Defining Song
     public Song(String name, String path) {
         this.name = name;
         this.path = path;
         this.notes = readSong(path);
     }
 
+    /**
+     * Returns the notes associated with of the song.
+     */
     public List<BellNote> getNotes() {
-        //Returns the notes associated with of the song.
         return notes;
     }
 
+    /**
+     * Returns the name of the song.
+     */
     public String getName() {
-        //Returns the name of the song.
         return name;
     }
 
+    /**
+     * This method reads the list of BellNotes from a file and converts them a song.
+     * When a file is passed that includes a line that does not properly define a BellNote,
+     * such as with a note and a note length, this method will skip that line of null notes
+     * and continue playing.
+     */
     private static List<BellNote> readSong(String path) {
         //Here we are taking in a file, and converting it to a list of bell notes.
         List <BellNote> bns = new LinkedList<>();
@@ -42,11 +56,14 @@ public class Song {
                 }
             }
         } catch(java.io.IOException e) {
-            //handling errors
+            //handle errors
         }
         return bns;
     }
 
+    /**
+     * This method uploads songs.
+     */
     public static List<Song> uploadSongs() {
         //Directory of songs
         //race conditions
@@ -58,7 +75,7 @@ public class Song {
             songBook.mkdirs();
             System.out.println("Directory didn't exist. We will create one.");
         }
-        //Song within the list of files
+        //Song is a list of its own songs within the list of files.
         File[] songFiles = songBook.listFiles();
         List <Song> song = new LinkedList<>();
         if (songFiles.length == 0) {
@@ -70,7 +87,7 @@ public class Song {
 
                 String songTitle;
 
-                //remove extensions
+                //remove extensions of file types so that all songs are eligible to play.
                 int ext = name.lastIndexOf(".");
                 if (ext != -1) {
                     songTitle = name.substring(0, ext);
@@ -82,15 +99,23 @@ public class Song {
         }
         return song;
     }
+
+    /**
+     * This method came from the TicTacToe program but was modified to fit the BellChoir program.
+     * When a file is passed, this method will split the lines into two fields, one for notes and one for length.
+     * It then returns a new BellNote with a note and note length.
+     */
     private static BellNote parseBellNote(String line) {
         final String[] fields = line.split("\\s+");
         if (fields.length == 2) {
             Note note = parseNote(fields[0]);
             if (note == null) {
+                //if note is null, return null
                 return null;
             }
             NoteLength length = parseNoteLength(fields[1]);
             if (length == null) {
+                //if length is null, return null
                 return null;
             }
             return new BellNote(note, length);
@@ -98,8 +123,12 @@ public class Song {
         return null;
     }
 
+    /**
+     * This method looks at the first field of the file passed, which is note.
+     * If the note is within the Note enumeration and is valid, the method will return a valid note.
+     */
     private static Note parseNote(String note) {
-        // If you give me garbage, I'll give it back
+        // Null note = null note
         if (note == null) {
             return null;
         }
@@ -111,6 +140,10 @@ public class Song {
         return null;
     }
 
+    /**
+     * This method contains a switch statement that iterates through all the note lengths given by the program.
+     * If a file is passed with a note length that doesn't exist here, it will return null.
+     */
     private static NoteLength parseNoteLength(String length) {
         switch (length) {
             case "1":
@@ -126,9 +159,9 @@ public class Song {
             case "T":
                 return NoteLength.TRIPLET;
             case "8":
-                return NoteLength.EIGTH;
+                return NoteLength.EIGHTH;
             case"8D":
-                return NoteLength.DOTEIGTH;
+                return NoteLength.DOTEIGHTH;
             case "16":
                 return NoteLength.SIXTEENTH;
             case"16D":

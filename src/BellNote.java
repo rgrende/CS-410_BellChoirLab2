@@ -1,7 +1,9 @@
-//Class Description:
-
+/**
+ * Class Description: This is the BellNote class that looks at the parameters of BellNote.
+ * Those parameters are Note and NoteLength both of which make up a BellNote.
+ */
 class BellNote {
-    //the note length and the note itself
+    //These are the BellNote class variables.
     final Note note;
     final NoteLength length;
 
@@ -11,7 +13,11 @@ class BellNote {
     }
 }
 
-//if needed, add dotted notes
+/**
+ * This is an enumeration of NoteLength. There are 10 different note lengths that my program recognizes.
+ * If a song is uploaded that has a note with a note length that is not within the enumeration of note,
+ * then the program will throw an error.
+ */
 enum NoteLength {
     WHOLE(1.0f),
     HALF(0.5f),
@@ -19,8 +25,8 @@ enum NoteLength {
     QUARTER(0.25f),
     DOTQUARTER(0.375f),
     TRIPLET(0.22f),
-    EIGTH(0.125f),
-    DOTEIGTH(0.1875f),
+    EIGHTH(0.125f),
+    DOTEIGHTH(0.1875f),
     SIXTEENTH(0.0625f),
     DOTSIXTEENTH(0.09375f);
 
@@ -32,10 +38,15 @@ enum NoteLength {
     }
 
     public int timeMs() {
+        //returns time in milliseconds
         return timeMs;
     }
 }
 
+/**
+ * This is the enumeration for Note. I have included all eight octaves in my program. The sharps are
+ * identified with an "S" in the note while rests is represented by "REST".
+ */
 enum Note {
     // REST Must be the first 'Note'
     //I have added all eight octaves to allow more songs to be played appropriately.
@@ -47,6 +58,7 @@ enum Note {
 
 
     public static final int SAMPLE_RATE = 256 * 1024; // ~256KHz which makes for better sound quality.
+    //Jake told me this is better quality at least...
     public static final int MEASURE_LENGTH_SEC = 2;
 
     // Circumference of a circle divided by # of samples
@@ -57,6 +69,10 @@ enum Note {
 
     private final byte[] sinSample = new byte[MEASURE_LENGTH_SEC * SAMPLE_RATE];
 
+    /**
+     * The note class calculates the frequency of each note. It is important to note that octaves
+     * change at every "A" note as opposed to every "C".
+     */
     private Note() {
         int n = this.ordinal();
         if (n > 0) {
