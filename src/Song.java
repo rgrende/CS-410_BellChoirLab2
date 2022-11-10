@@ -1,4 +1,5 @@
 //imports
+
 import java.io.File;
 import java.util.List;
 import java.util.LinkedList;
@@ -44,7 +45,7 @@ public class Song {
      */
     private static List<BellNote> readSong(String path) {
         //Here we are taking in a file, and converting it to a list of bell notes.
-        List <BellNote> bns = new LinkedList<>();
+        List<BellNote> bns = new LinkedList<>();
         File file = new File(path);
         try {
             Scanner scanner = new Scanner(file);
@@ -55,7 +56,7 @@ public class Song {
                     bns.add(temp);
                 }
             }
-        } catch(java.io.IOException e) {
+        } catch (java.io.IOException e) {
             //handle errors
         }
         return bns;
@@ -77,7 +78,7 @@ public class Song {
         }
         //Song is a list of its own songs within the list of files.
         File[] songFiles = songBook.listFiles();
-        List <Song> song = new LinkedList<>();
+        List<Song> song = new LinkedList<>();
         if (songFiles.length == 0) {
             System.err.println("Song book is empty. Please add some songs.");
         } else {
@@ -160,11 +161,11 @@ public class Song {
                 return NoteLength.TRIPLET;
             case "8":
                 return NoteLength.EIGHTH;
-            case"8D":
+            case "8D":
                 return NoteLength.DOTEIGHTH;
             case "16":
                 return NoteLength.SIXTEENTH;
-            case"16D":
+            case "16D":
                 return NoteLength.DOTSIXTEENTH;
 
             default:

@@ -1,4 +1,5 @@
 //imports
+
 import javax.sound.sampled.SourceDataLine;
 
 /**
@@ -68,7 +69,7 @@ public class Choir implements Runnable {
             while (turn) {
                 try {
                     wait();
-                } catch (InterruptedException ignored){
+                } catch (InterruptedException ignored) {
 
                 }
             }

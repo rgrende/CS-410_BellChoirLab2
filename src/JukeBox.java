@@ -1,4 +1,5 @@
 //imports
+
 import java.util.*;
 
 /**
@@ -40,7 +41,7 @@ public class JukeBox {
             //Why system.in? Because we are taking the input from the keyboard since it pulls from the console.
             Scanner scan = new Scanner(System.in);
             //Jaden helped me understand regex and how it operates.
-            while (!scan.hasNext("[1-" + songs.size() + "]|(-1)")){
+            while (!scan.hasNext("[1-" + songs.size() + "]|(-1)")) {
                 System.out.println("Not a valid song number. Please try again.");
                 scan.next();
             }
