@@ -34,6 +34,7 @@ public class JukeBox {
         Conductor conductor;
         final Map<Note, Choir> choirMembers = getMembers(songs);
         boolean playing = true;
+        //I found the ascii art at https://ascii.co.uk/art/jukebox
         System.out.println("        Welcome to the BellChoir      ");
         System.out.println("   _       _        _               \n" +
                 "  (_)     | |      | |              \n" +
@@ -69,6 +70,7 @@ public class JukeBox {
             if (songNum + 1 == -1) {
                 System.out.println("Shutting Down the Jukebox...");
                 scan.close();
+                //choirStop();
                 System.exit(-1);
             }
 
