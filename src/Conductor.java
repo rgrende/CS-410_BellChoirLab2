@@ -34,21 +34,25 @@ public class Conductor {
      * Once the line has been read, another choir member gets to take turn to play the next note.
      */
     public void playTheSong(Song song) throws LineUnavailableException {
-        try (final SourceDataLine line = AudioSystem.getSourceDataLine(af)) {
-            //opens the line to read
-            line.open();
-            line.start();
-            for (BellNote bn : song.getNotes()) {
-                Note note = bn.note;
-                NoteLength length = bn.length;
-                choirMembers.get(note).takeTurn(length, line);
+        if (song.valid()) {
+            try (final SourceDataLine line = AudioSystem.getSourceDataLine(af)) {
+                //opens the line to read
+                line.open();
+                line.start();
+                for (BellNote bn : song.getNotes()) {
+                    Note note = bn.note;
+                    NoteLength length = bn.length;
+                    choirMembers.get(note).takeTurn(length, line);
+                }
+                //drains the line after each read
+                line.drain();
+            } catch (LineUnavailableException e) {
+                System.out.println(song.getName() + " is not working...");
+                System.exit(-1);
+                //exit the code if problem occurs here
             }
-            //drains the line after each read
-            line.drain();
-        } catch (LineUnavailableException e) {
-            System.out.println(song.getName() + " is not working...");
-            System.exit(-1);
-            //exit the code if problem occurs here
+        } else {
+            System.out.println("The selected song is not valid. Please try another song.");
         }
     }
 }

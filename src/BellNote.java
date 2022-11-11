@@ -1,12 +1,14 @@
 /**
  * Class Description: This is the BellNote class that looks at the parameters of BellNote.
- * Those parameters are Note and NoteLength both of which make up a BellNote.
+ * Those parameters are Note and NoteLength both of which make up a BellNote. This code was provided by
+ * Professor Nate Williams.
  */
 class BellNote {
     //These are the BellNote class variables.
     final Note note;
     final NoteLength length;
 
+    //defines a bell note
     BellNote(Note note, NoteLength length) {
         this.note = note;
         this.length = length;
@@ -88,7 +90,6 @@ enum Note {
             }
         }
     }
-
 
     public byte[] sample() {
         return sinSample;

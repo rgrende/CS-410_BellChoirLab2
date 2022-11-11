@@ -1,7 +1,5 @@
 //imports
-
 import java.io.File;
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -16,6 +14,7 @@ public class Song {
     private final String name;
     private final String path;
     private List<BellNote> notes;
+    private boolean songIsValid = true;
 
     //Defining Song
     public Song(String name, String path) {
@@ -39,6 +38,13 @@ public class Song {
     }
 
     /**
+     * Just a small validation.
+     */
+    public boolean valid() {
+        return songIsValid;
+    }
+
+    /**
      * This method reads the list of BellNotes from a file and converts them a song.
      * When a file is passed that includes a line that does not properly define a BellNote,
      * such as with a note and a note length, this method will skip that line of null notes
@@ -58,20 +64,17 @@ public class Song {
                 }
             }
         } catch (java.io.IOException e) {
-            //handle errors
+            System.out.println("Invalid song request. Please try again.");
         }
         return bns;
     }
 
     /**
-     * This method uploads songs.
+     * This method uploads songs. If the user does not have a 'songs' folder, the program will make one.
+     * However, in order to add songs to the folder, the user must restart the program as it will not refresh.
+     *
      */
     public static List<Song> uploadSongs() {
-        //Directory of songs
-        //race conditions
-        //validation for no songs
-        //validation for no directory
-        //validation for empty directory
         File songBook = new File("songs");
         //loads the song book folder
         if (!songBook.exists()) {
@@ -126,6 +129,7 @@ public class Song {
             }
             return new BellNote(note, length);
         }
+        System.out.println("Invalid song request. Please try again.");
         return null;
     }
 
@@ -136,6 +140,7 @@ public class Song {
     private static Note parseNote(String note) {
         // Null note = null note
         if (note == null) {
+            System.out.println("Invalid note in selected song.");
             return null;
         }
         for (Note validNote : Note.values()) {
@@ -174,11 +179,8 @@ public class Song {
                 return NoteLength.DOTSIXTEENTH;
 
             default:
+                System.out.println("Invalid note length in selected song.");
                 return null;
         }
     }
 }
-
-
-//interface consists of the necessary methods
-//list is interface, has to be defined with implementation
