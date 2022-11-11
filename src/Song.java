@@ -1,6 +1,7 @@
 //imports
 
 import java.io.File;
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -72,9 +73,12 @@ public class Song {
         //validation for no directory
         //validation for empty directory
         File songBook = new File("songs");
+        //loads the song book folder
         if (!songBook.exists()) {
-            songBook.mkdirs();
             System.out.println("Directory didn't exist. We will create one.");
+            System.out.println("Please restart the program and add some songs to your 'song' directory");
+            songBook.mkdirs();
+
         }
         //Song is a list of its own songs within the list of files.
         File[] songFiles = songBook.listFiles();
@@ -100,6 +104,7 @@ public class Song {
         }
         return song;
     }
+
 
     /**
      * This method came from the TicTacToe program but was modified to fit the BellChoir program.

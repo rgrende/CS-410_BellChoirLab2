@@ -46,7 +46,9 @@ public class Conductor {
             //drains the line after each read
             line.drain();
         } catch (LineUnavailableException e) {
-            System.out.println(song.getName() + " not working...");
+            System.out.println(song.getName() + " is not working...");
+            System.exit(-1);
+            //exit the code if problem occurs here
         }
     }
 }
